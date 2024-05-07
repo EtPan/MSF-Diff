@@ -10,11 +10,11 @@ This is the source code for our paper: [From the Abundance Perspective: Multi-mo
 
 ### Step 0: Data preparation
 
-Download the Chikusei dataset (HSI) from, and divide and crop the HSI into several mat files of spatial size 256$\times$256$\times$59 for training the unmixing network. Put them in ./dataset/trains/ and ./dataset/evals/
+Download the Chikusei dataset (HSI) from https://naotoyokoya.com/Download.html, and divide and crop the HSI into several mat files of spatial size 256$\times$256$\times$59 for training the unmixing network. Put them in ./dataset/trains/ and ./dataset/evals/
 
-Download the HSRS-SC dataset (HSI) from, and resample the HSIs into 256$\times$256$\times$59 for validation of the unmixing network. Put them in ./dataset/tests/.
+Download the HSRS-SC dataset (HSI) from http://www.cjig.cn/jig/ch/reader/view_abstract.aspx?file_no=20210805, and resample the HSIs into 256$\times$256$\times$59 for validation of the unmixing network. Put them in ./dataset/tests/.
 
-Download the AID dataset (RGB) from, and resize the images into 256$\times$256. Put them in ./datasets/RGB/ 
+Download the AID dataset (RGB) from https://hyper.ai/datasets/5446, and resize the images into 256$\times$256. Put them in ./datasets/RGB/ 
 
 
 ### Step 1:   Scene-based Unmixing
