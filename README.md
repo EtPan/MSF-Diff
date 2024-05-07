@@ -1,10 +1,10 @@
-# From the Abundance Perspective: Multi-modal Fusion-based Hyperspectral Image Synthesis
+# From the Abundance Perspective: Multi-modal Scene Fusion-based Hyperspectral Image Synthesis
 
 
 
 ## Intro
 
-This is the source code for our paper: [From the Abundance Perspective: Multi-modal Fusion-based Hyperspectral Image Synthesis](https://www.sciencedirect.com/science/article/abs/pii/S1566253524001970).
+This is the source code for our paper: [From the Abundance Perspective: Multi-modal Scene Fusion-based Hyperspectral Image Synthesis](https://www.sciencedirect.com/science/article/abs/pii/S1566253524001970).
 
 ## Usage
 
