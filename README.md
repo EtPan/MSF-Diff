@@ -1,20 +1,20 @@
-# From the Abundance Perspective: Multi-modal Fusion-based Hyperspectral Image Synthesis
+# From the Abundance Perspective: Multi-modal Scene Fusion-based Hyperspectral Image Synthesis
 
 
 
-## Intro
+## Introduction
 
-This is the source code for our paper: [From the Abundance Perspective: Multi-modal Fusion-based Hyperspectral Image Synthesis](https://www.sciencedirect.com/science/article/abs/pii/S1566253524001970).
+This is the source code for our paper: [From the Abundance Perspective: Multi-modal Scene Fusion-based Hyperspectral Image Synthesis](https://www.sciencedirect.com/science/article/abs/pii/S1566253524001970).
 
 ## Usage
 
 ### Step 0: Data preparation
 
-Download the Chikusei dataset (HSI) from https://naotoyokoya.com/Download.html, and divide and crop the HSI into several mat files of spatial size 256$\times$256$\times$59 for training the unmixing network. Put them in ./dataset/trains/ and ./dataset/evals/
+Download the Chikusei dataset (HSI) from https://naotoyokoya.com/Download.html, and divide and crop the HSI into several mat files of spatial size $256\times 256\times 59$ for training the unmixing network. Put them in `./dataset/trains/` and `./dataset/evals/`
 
-Download the HSRS-SC dataset (HSI) from http://www.cjig.cn/jig/ch/reader/view_abstract.aspx?file_no=20210805, and resample the HSIs into 256$\times$256$\times$59 for validation of the unmixing network. Put them in ./dataset/tests/.
+Download the HSRS-SC dataset (HSI) from http://www.cjig.cn/jig/ch/reader/view_abstract.aspx?file_no=20210805, and resample the HSIs into $256\times 256\times 59$ for validation of the unmixing network. Put them in `./dataset/tests/`.
 
-Download the AID dataset (RGB) from https://hyper.ai/datasets/5446, and resize the images into 256$\times$256. Put them in ./datasets/RGB/ 
+Download the AID dataset (RGB) from https://hyper.ai/datasets/5446, and resize the images into $256\times 256$. Put them in `./datasets/RGB/ `
 
 
 ### Step 1:   Scene-based Unmixing
@@ -26,7 +26,7 @@ After training, run the following code to infer the abundance maps of external R
 
 `python 1_scene-based-unmixing.py infer` 
 
-After that, we can obtain the inferred abundance of RGB dataset in './datasets/inferred_abu/'.
+After that, we can obtain the inferred abundance of RGB dataset in `./datasets/inferred_abu/`.
 
 ### Step 2:  Abundance-based Diffusion
 For training the Abundance-based Diffusion, run the following code:
@@ -37,7 +37,7 @@ After training, modify the 'resume_state' in the `./config/*.json` file, and run
 
 `python 2_abundance-based-diffusion.py -p val`
 
-After that, we can obtain the synthesized abundance in './experiments/ddpm/\*/mat_results/'
+After that, we can obtain the synthesized abundance in `./experiments/ddpm/\*/mat_results/`.
 
 ### Step 3:  Fusion-based generation
 
