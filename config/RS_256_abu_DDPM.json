@@ -11,7 +11,7 @@
         "results": "results",
         "mat_results": "mat_results",
         "checkpoint": "checkpoint",
-        "resume_state": null
+        "resume_state": null // for validation, modify it to "./experiments/ddpm/*/checkpoints/I***_E***"
     },
     "datasets": {
         "train": {
@@ -22,7 +22,7 @@
         }
     },
     "model": {
-        "which_model_G": "ddpm",
+        "which_model_G": "sr3",
         "finetune_norm": false,
         "unet": {
             "in_channel": 5,

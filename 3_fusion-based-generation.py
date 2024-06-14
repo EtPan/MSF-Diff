@@ -1,12 +1,13 @@
 import torch
 import torch.nn as nn
-import cv2
 from torch.utils.data import DataLoader
+
+import os
+import cv2
 import scipy.io as sio
 
 from core.loaddata import HSSampledata
 from core.common import *
-import torch.nn.functional as F
 
 
 class decoderAE(nn.Module):
@@ -33,12 +34,14 @@ def tensor2rgb(tensor):
     return image
 
 # path of synthesized abundance
-train_path    = ''
+train_path    = '' 
 # name of checkpoints of the unmixingAE
-model_name    = ''
+model_name    = '' 
 # save dir of final results
 result_path   = './experiments/fusion/HSI/'
 image_path    = './experiments/fusion/RGB/'
+os.makedirs(result_path, exist_ok=True)
+os.makedirs(image_path, exist_ok=True)
 
 sample_set = HSSampledata(image_dir=train_path, augment=False)
 sample_loader = DataLoader(sample_set, batch_size=1, num_workers=4, shuffle=False)

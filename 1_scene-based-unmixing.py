@@ -1,11 +1,8 @@
 import argparse
 import os
 import sys
-import random
 import time
 import torch
-import cv2
-import math
 import numpy as np
 import json
 import scipy.io as sio
@@ -118,7 +115,6 @@ def train_unmixing(args):
     net.to(device).train()
 
     # loss functions to choose
-    mseloss = torch.nn.MSELoss(reduction='mean')
     charbloss = CharbonnierLoss()
     SADLoss = reconstruction_SADloss()
     TVLoss = TVLossEndmembers()
@@ -142,7 +138,6 @@ def train_unmixing(args):
             un_result, y, decoder_weight = net(rgbdata)
 
             charb_loss = charbloss(y,gt)
-            mse_loss = mseloss(y,gt)
             sad_loss = 0.1 * SADLoss(y,gt)
             tv_endmembers = 0.01 * TVLoss(decoder_weight)
             loss = charb_loss +  sad_loss + tv_endmembers
@@ -179,9 +174,10 @@ def train_unmixing(args):
         test_number = 0
         for i, (gt,rgbdata) in enumerate(test_loader):
             gt,rgbdata = gt.to(device), rgbdata.to(device)
-            un_result, y, decoder_weight = net(rgbdata)
+            _, y, decoder_weight = net(rgbdata)
             y, gt = y.squeeze().cpu().numpy().transpose(1, 2, 0), gt.squeeze().cpu().numpy().transpose(1, 2, 0)
             y = y[:gt.shape[0],:gt.shape[1],:] 
+            gt = gt[:,:,7:66]
             if i==0:
                 indices = quality_assessment(gt, y, data_range=1., ratio=4)
             else:
@@ -221,9 +217,8 @@ def validate(args, loader, model, criterion):
     epoch_meter.reset()
     with torch.no_grad():
         for i, (gt,rgbdata) in enumerate(loader):
-            gt,rgbdata = gt.to(device), rgbdata.to(device)
-            # y = model(ms)            
-            un_result, y, decoder_weight = model(rgbdata)
+            gt,rgbdata = gt.to(device), rgbdata.to(device)           
+            _, y, _ = model(rgbdata)
             loss = criterion(y, gt)
             epoch_meter.add(loss.item())
         mesg = "===> {}\tEpoch evaluation Complete: Avg. Loss: {:.6f}".format(time.ctime(), epoch_meter.value()[0])
@@ -252,12 +247,10 @@ def infer_abu(args):
 
     print('===> Start testing')
     with torch.no_grad():
-        output = []
-        test_number = 0
         # loading model
         for i, (gt,rgbdata) in enumerate(inferdata_loader):
             gt, rgbdata =  gt.to(device), rgbdata.to(device)
-            en_result, y, decoder_weight = net(rgbdata)
+            en_result, y, _ = net(rgbdata)
             en_result = en_result.clamp_(*(0,1)).squeeze().cpu().numpy().transpose(1, 2, 0)
             gt = gt.clamp_(*(0,1)).squeeze().cpu().numpy().transpose(1, 2, 0)
             y = y.clamp_(*(0,1)).squeeze().cpu().numpy().transpose(1, 2, 0)
