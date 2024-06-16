@@ -1,12 +1,14 @@
 import os
 import numpy as np
 import scipy.io as sio
-import torch
 import model as Model
 import argparse
 import logging
-from tensorboardX import SummaryWriter
+
+import torch
 from torch.utils.data import DataLoader
+from tensorboardX import SummaryWriter
+
 import core.logger as Logger
 import core.vis as visual
 from core.wandb_logger import WandbLogger
@@ -119,9 +121,9 @@ if __name__ == "__main__":
                         
                         # generation
                         visual.save_img(
-                            rgbsample_img, '{}/{}_{}_sample.png'.format(result_path, current_step, idx))
+                            rgbsample_img, '{}/{}_{}_sample_preview.png'.format(result_path, current_step, idx))
                         visual.save_mat(
-                            sample_img, '{}/{}_{}_sample.mat'.format(mat_result_path, current_step, idx))
+                            sample_img, '{}/{}_{}_sample_abu.mat'.format(mat_result_path, current_step, idx))
 
                         tb_logger.add_image(
                             'Iter_{}'.format(current_step),
@@ -169,11 +171,11 @@ if __name__ == "__main__":
 
             else:
                 visual.save_img(
-                    visual.tensor2rgb_band8(visuals['SAMPLE'][-1]), '{}/{}_{}_sample.png'.format(result_path, current_step, idx))
+                    visual.tensor2rgb_band8(visuals['SAMPLE'][-1]), '{}/{}_{}_sample_preview.png'.format(result_path, current_step, idx))
 
 
                 visual.save_mat(
-                    visual.tensor2img(visuals['SAMPLE'][-1]), '{}/{}_{}_sample.mat'.format(mat_result_path, current_step, idx))
+                    visual.tensor2img(visuals['SAMPLE'][-1]), '{}/{}_{}_sample_abu.mat'.format(mat_result_path, current_step, idx))
 
 
             sample_imgs.append(visual.tensor2img(visuals['SAMPLE'][-1]))

@@ -33,9 +33,9 @@ def tensor2rgb(tensor):
     image = norm(image)
     return image
 
-# path of synthesized abundance
+# path of synthesized abundance # ./experiments/ddpm/*/mat_results/
 train_path    = '' 
-# name of checkpoints of the unmixingAE
+# name of checkpoints of the unmixingAE # ./experiments/unmixing/ckpts/*.pth
 model_name    = '' 
 # save dir of final results
 result_path   = './experiments/fusion/HSI/'

@@ -2,15 +2,16 @@ import argparse
 import os
 import sys
 import time
-import torch
 import numpy as np
 import json
 import scipy.io as sio
+
+import torch
 import torch.backends.cudnn as cudnn
 from torch.optim import Adam
 from torch.utils.data import DataLoader
-from tensorboardX import SummaryWriter
 from torchnet import meter
+from tensorboardX import SummaryWriter
 
 from model.unmixingAE import UnmixingAE
 from core import utils
@@ -22,8 +23,6 @@ from core.metrics import quality_assessment
 # global settings
 resume = False
 log_interval = 50
-model_name = ''
-test_data_dir = ''
 
 def main():
     # parsers
