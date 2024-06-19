@@ -1,6 +1,5 @@
 import os
 import numpy as np
-import scipy.io as sio
 import model as Model
 import argparse
 import logging
@@ -13,7 +12,6 @@ import core.logger as Logger
 import core.vis as visual
 from core.wandb_logger import WandbLogger
 from core.loaddata import AbuDataset
-from core import utils
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

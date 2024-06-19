@@ -71,7 +71,6 @@ def main():
 
 def train_unmixing(args):
     device = torch.device("cuda" if args.cuda else "cpu")
-    # args.seed = random.randint(1, 10000)
     print("Start seed: ", args.seed)
     torch.manual_seed(args.seed)
     if args.cuda:
@@ -134,7 +133,7 @@ def train_unmixing(args):
         for iteration, (gt,rgbdata) in enumerate(train_loader):
             gt, rgbdata = gt.to(device), rgbdata.to(device)
             optimizer.zero_grad()       
-            un_result, y, decoder_weight = net(rgbdata)
+            _, y, decoder_weight = net(rgbdata)
 
             charb_loss = charbloss(y,gt)
             sad_loss = 0.1 * SADLoss(y,gt)
@@ -149,7 +148,6 @@ def train_unmixing(args):
                 print("===> {} B{} \tEpoch[{}]({}/{}): Loss: {:.6f} charb_loss: {:.6f} SADLoss: {:.6f} TVLoss: {:.6f}".format(time.ctime(), args.n_blocks, e+1, iteration + 1,
                                                                    len(train_loader), loss.item(),charb_loss.item(), sad_loss.item(), tv_endmembers.item() ))
                 n_iter = e * len(train_loader) + iteration + 1
-                # n_iter = e  + iteration + 1
                 writer.add_scalar('scalar/train_loss', loss, n_iter)
 
         print("===> {}\tEpoch {} Training Complete: Avg. Loss: {:.6f}".format(time.ctime(), e+1, epoch_meter.value()[0]))
@@ -215,7 +213,7 @@ def validate(args, loader, model, criterion):
     epoch_meter = meter.AverageValueMeter()
     epoch_meter.reset()
     with torch.no_grad():
-        for i, (gt,rgbdata) in enumerate(loader):
+        for _, (gt,rgbdata) in enumerate(loader):
             gt,rgbdata = gt.to(device), rgbdata.to(device)           
             _, y, _ = model(rgbdata)
             loss = criterion(y, gt)
@@ -242,9 +240,8 @@ def infer_abu(args):
     net.load_state_dict(ckpt)
     net.eval().cuda()
     device = torch.device("cuda" if args.cuda else "cpu")
-    print('===> Loading testset')
 
-    print('===> Start testing')
+    print('===> Start inferring')
     with torch.no_grad():
         # loading model
         for i, (gt,rgbdata) in enumerate(inferdata_loader):
